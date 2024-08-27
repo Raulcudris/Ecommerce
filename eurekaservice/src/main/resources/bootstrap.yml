@@ -5,7 +5,8 @@ spring:
   application:
     name: mscv-eureka
   config:
-    import: "optional:configserver:http://localhost:8888"
+    enabled: true
+    uri: http://localhost:8081
 
 eureka:
   instance:
