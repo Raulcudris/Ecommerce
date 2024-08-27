@@ -1,6 +1,8 @@
 package com.makiia.userservice.service;
 
 import com.makiia.userservice.dto.EntityUsersDto;
+import com.makiia.userservice.dto.NewUserDto;
+import com.makiia.userservice.dto.RequestDto;
 import com.makiia.userservice.dto.TokenDto;
 import com.makiia.userservice.entity.EntityUsers;
 import com.makiia.userservice.repository.EntityUsersRepository;
@@ -19,16 +21,18 @@ public class EntityUsersService {
     PasswordEncoder passwordEncoder;
     @Autowired
     JwtProvider jwtProvider;
-    public EntityUsers save(EntityUsersDto dto) {
+    public EntityUsers save(NewUserDto dto) {
         Optional<EntityUsers> user = entityUsersRepository.findByUserName(dto.getUsername());
         if(user.isPresent())
             return null;
         String password = passwordEncoder.encode(dto.getPassword());
-        EntityUsers authUser = EntityUsers.builder()
+
+        EntityUsers entityUsers = EntityUsers.builder()
                 .username(dto.getUsername())
                 .password(password)
+                .role(dto.getRole())
                 .build();
-        return entityUsersRepository.save(authUser);
+        return entityUsersRepository.save(entityUsers);
     }
 
     public TokenDto login(EntityUsersDto dto) {
@@ -40,8 +44,8 @@ public class EntityUsersService {
         return null;
     }
 
-    public TokenDto validate(String token) {
-        if(!jwtProvider.validate(token))
+    public TokenDto validate(String token, RequestDto dto) {
+        if(!jwtProvider.validate(token, dto))
             return null;
         String username = jwtProvider.getUserNameFromToken(token);
         if(!entityUsersRepository.findByUserName(username).isPresent())

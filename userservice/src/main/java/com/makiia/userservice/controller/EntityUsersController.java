@@ -1,6 +1,8 @@
 package com.makiia.userservice.controller;
 
 import com.makiia.userservice.dto.EntityUsersDto;
+import com.makiia.userservice.dto.NewUserDto;
+import com.makiia.userservice.dto.RequestDto;
 import com.makiia.userservice.dto.TokenDto;
 import com.makiia.userservice.entity.EntityUsers;
 import com.makiia.userservice.service.EntityUsersService;
@@ -23,15 +25,15 @@ public class EntityUsersController {
     }
 
     @PostMapping("/validate")
-    public ResponseEntity<TokenDto> validate(@RequestParam String token){
-        TokenDto tokenDto = entityUsersService.validate(token);
+    public ResponseEntity<TokenDto> validate(@RequestParam String token, @RequestBody RequestDto dto){
+        TokenDto tokenDto = entityUsersService.validate(token, dto);
         if(tokenDto == null)
             return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(tokenDto);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<EntityUsers> create(@RequestBody EntityUsersDto dto){
+    public ResponseEntity<EntityUsers> create(@RequestBody NewUserDto dto){
         EntityUsers authUser = entityUsersService.save(dto);
         if(authUser == null)
             return ResponseEntity.badRequest().build();
