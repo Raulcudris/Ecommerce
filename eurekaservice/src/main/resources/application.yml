@@ -1,0 +1,11 @@
+server:
+  port: 8761
+
+eureka:
+  client:
+    register-whith-eureka: false
+    fetch-registry: false
+
+spring:
+  application:
+  name: msvc-service
