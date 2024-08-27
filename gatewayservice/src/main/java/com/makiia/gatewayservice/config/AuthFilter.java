@@ -33,7 +33,6 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
                     .uri("http://localhost:8004/users/validate?token="+chunks[1])
                     .retrieve().bodyToMono(TokenDto.class)
                     .map( t->{
-                        t.getToken();
                         return  exchange;
                     }).flatMap(chain::filter);
         }));
