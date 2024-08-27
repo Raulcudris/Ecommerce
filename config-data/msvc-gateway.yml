@@ -21,7 +21,8 @@ spring:
           uri: http://localhost:8001
           predicates:
             - Path=/products/**
-
+           filters:
+            - AuthFilter
         - id:  orders-services
           uri: http://localhost:8002
           predicates:
