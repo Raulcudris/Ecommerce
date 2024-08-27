@@ -1,5 +1,4 @@
 package com.makiia.gatewayservice.config;
-
 import com.makiia.gatewayservice.dto.RequestDto;
 import com.makiia.gatewayservice.dto.TokenDto;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -21,28 +20,30 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
         super(Config.class);
         this.webClient = webClient;
     }
+
     @Override
     public GatewayFilter apply(Config config) {
         return (((exchange, chain) -> {
-            if(!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION))
+            if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION))
                 return onError(exchange, HttpStatus.BAD_REQUEST);
+
             String tokenHeader = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
-            String [] chunks = tokenHeader.split(" ");
-            if(chunks.length != 2 || !chunks[0].equals("Bearer"))
+            String[] chunks = tokenHeader.split(" ");
+            if (chunks.length != 2 || !chunks[0].equals("Bearer"))
                 return onError(exchange, HttpStatus.BAD_REQUEST);
+
             return webClient.build()
                     .post()
-                    .uri("http://localhost:8004/users/validate?token=" + chunks[1])
+                    .uri("http://msvc-users/users/validate?token=" + chunks[1])
                     .bodyValue(new RequestDto(exchange.getRequest().getPath().toString(), exchange.getRequest().getMethod().toString()))
                     .retrieve().bodyToMono(TokenDto.class)
                     .map(t -> {
-                        t.getToken();
                         return exchange;
                     }).flatMap(chain::filter);
         }));
     }
 
-    public Mono<Void> onError(ServerWebExchange exchange, HttpStatus status){
+    public Mono<Void> onError(ServerWebExchange exchange, HttpStatus status) {
         ServerHttpResponse response = exchange.getResponse();
         response.setStatusCode(status);
         return response.setComplete();
