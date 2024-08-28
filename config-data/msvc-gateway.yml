@@ -28,11 +28,15 @@ spring:
           uri: http://localhost:8002
           predicates:
             - Path=/orders/**
+          filters:
+            - AuthFilter
 
         - id: payments-services
           uri: http://localhost:8003
           predicates:
             - Path=/pay/**
+          filters:
+            - AuthFilter
         
         - id: users-services
           uri: http://localhost:8004
