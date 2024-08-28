@@ -1,12 +1,17 @@
 package com.makiia.gatewayservice.dto;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class RequestDto {
     private String path;
     private String method;
 
     // Constructor con parámetros
-    public RequestDto(String path, String method) {
+    /*public RequestDto(String path, String method) {
         this.path = path;
         this.method = method;
     }
@@ -30,4 +35,6 @@ public class RequestDto {
 
     // Constructor por defecto (opcional)
     public RequestDto() {}
+    */
+
 }
