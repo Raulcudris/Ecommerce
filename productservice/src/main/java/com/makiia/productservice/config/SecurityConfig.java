@@ -1,6 +1,4 @@
 package com.makiia.productservice.config;
-
-
 import com.makiia.productservice.jwt.JwtAuthenticationFilter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
