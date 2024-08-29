@@ -23,7 +23,6 @@ public class JwtUtil {
                     .parseClaimsJws(token)
                     .getBody();
         } catch (Exception e) {
-            // Manejo de error si el token es inválido o hay problemas de parsing
             return null;
         }
     }
