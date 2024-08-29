@@ -9,18 +9,18 @@ eureka:
     instance:
       hostname: localhost
     admin-paths:
-      paths:
-        - uri: "/products/**"
-          method: "POST"
-        - uri: "/products/**"
-          method: "GET"
-        #- uri: "/products/{1}[1-9]+[0-9]*"
-          #method: "GET"
-        - uri: "/orders/**"
-          method: "POST"
-        - uri: "/orders/**"
-          method: "GET"
-        - uri: "/pay/**"
-          method: "POST"
-        - uri: "/pay/**"
-          method: "GET"
+    paths:
+      - uri: "/products/**"
+        method: "POST"
+      - uri: "/products/**"
+        method: "GET"
+      #- uri: "/products/{1}[1-9]+[0-9]*"
+        #method: "GET"
+      - uri: "/orders/**"
+        method: "POST"
+      - uri: "/orders/**"
+        method: "GET"
+      - uri: "/pay/**"
+        method: "POST"
+      - uri: "/pay/**"
+        method: "GET"
