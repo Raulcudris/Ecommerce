@@ -5,6 +5,12 @@ spring:
     config:
       enabled: true
       uri: http://localhost:8081
+  spring:
+    security:
+      oauth2:
+        resourceserver:
+          jwt:
+            issuer-uri: http://msvc-users/users/validate?token=
 
   datasource:
     url: jdbc:mysql://localhost:3306/ecommerce
