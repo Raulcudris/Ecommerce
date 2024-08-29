@@ -17,14 +17,14 @@ public class ProductController {
     ProductsService productsService;
 
     @GetMapping("getall")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('admin')")
     public List<ProductsDto> getAll(){
         return productsService.getAll().stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<ProductsDto> getById(@PathVariable("id") Integer id){
         Products product = productsService.getProductById(id);
         if (product == null) {
@@ -33,7 +33,7 @@ public class ProductController {
         return ResponseEntity.ok(convertToDto(product));
     }
     @PostMapping("create")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<ProductsDto> save(@RequestBody ProductsDto productDto){
         Products product = convertToEntity(productDto);
         Products savedProduct = productsService.save(product);

@@ -9,16 +9,12 @@ import java.util.Base64;
 
 @Component
 public class JwtUtil {
-
     @Value("${jwt.secret}")
     private String secret;
-
     @PostConstruct
     protected void init() {
         secret = Base64.getEncoder().encodeToString(secret.getBytes());
     }
-
-
     public Claims getClaims(String token) {
         try {
             return Jwts.parser()
