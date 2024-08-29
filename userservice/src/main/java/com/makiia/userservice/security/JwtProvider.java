@@ -16,10 +16,8 @@ import java.util.Map;
 public class JwtProvider {
     @Value("${jwt.secret}")
     private String secret;
-
     @Autowired
     RouteValidator routeValidator;
-
     @PostConstruct
     protected void init() {
         secret = Base64.getEncoder().encodeToString(secret.getBytes());
@@ -60,6 +58,6 @@ public class JwtProvider {
     }
 
     private boolean isAdmin(String token) {
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().get("role").equals("admin");
+        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().get("role").equals("ADMIN");
     }
 }
