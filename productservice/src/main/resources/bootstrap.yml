@@ -5,15 +5,13 @@ spring:
     config:
       enabled: true
       uri: http://localhost:8081
-  spring:
-    security:
-      oauth2:
-        resourceserver:
-          jwt:
-            issuer-uri: http://msvc-users/users/validate?token=
 
   datasource:
     url: jdbc:mysql://localhost:3306/ecommerce
     username: admin
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+jwt:
+  secret: 5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437
+
