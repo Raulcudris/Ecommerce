@@ -16,7 +16,7 @@ public class JwtUtil {
         secret = Base64.getEncoder().encodeToString(secret.getBytes());
     }
 
-    public Claims getAllClaims(String token) {
+    public Claims getClaims(String token) {
         try {
             return Jwts.parser()
                     .setSigningKey(secret)
@@ -27,12 +27,12 @@ public class JwtUtil {
         }
     }
     public String getSubject(String token) {
-        Claims claims = getAllClaims(token);
+        Claims claims = getClaims(token);
         return (claims != null) ? claims.getSubject() : null;
     }
-    public List<String> getRoles(String token) {
-        Claims claims = getAllClaims(token);
-        return (claims != null) ? claims.get("roles", List.class) : null;
-    }
 
+    public String getRoleFromToken(String token){
+        Claims claims = getClaims(token);
+        return claims != null ? claims.get("role", String.class) : null;
+    }
 }

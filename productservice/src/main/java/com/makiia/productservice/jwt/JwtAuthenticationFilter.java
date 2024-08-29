@@ -15,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,14 +32,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (StringUtils.hasText(token) && token.startsWith("Bearer ")) {
                 String jwtToken = token.substring(7);
                 String username = jwtUtil.getSubject(jwtToken);
-                List<String> roles = jwtUtil.getRoles(jwtToken);
+                String role = jwtUtil.getRoleFromToken(jwtToken);
 
-                if (username != null && roles != null) {
-                    List<SimpleGrantedAuthority> authorities = roles.stream()
-                            .map(SimpleGrantedAuthority::new)
-                            .collect(Collectors.toList());
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                            username, null, authorities);
+                if (username != null && role != null) {
+                    List<SimpleGrantedAuthority>
+                            authorities   = Collections.singletonList(new SimpleGrantedAuthority(role));
+
+                    UsernamePasswordAuthenticationToken authentication
+                            = new UsernamePasswordAuthenticationToken(username, null, authorities);
+
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }

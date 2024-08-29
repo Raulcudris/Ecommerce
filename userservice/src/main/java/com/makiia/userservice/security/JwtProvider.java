@@ -16,7 +16,6 @@ import java.util.Map;
 public class JwtProvider {
     @Value("${jwt.secret}")
     private String secret;
-
     @Autowired
     RouteValidator routeValidator;
 
