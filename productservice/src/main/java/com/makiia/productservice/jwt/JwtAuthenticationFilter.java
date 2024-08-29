@@ -34,14 +34,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 String role = jwtUtil.getRoleFromToken(jwtToken);
 
                 if (username != null && role != null) {
-                    List<SimpleGrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role));
+                    List<SimpleGrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role.toUpperCase()));
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
+            } else {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized: Token is missing or invalid.");
+                return;
             }
         } catch (Exception e) {
-            System.out.println("Failed to set user authentication: " + e.getMessage());
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized: Token is invalid.");
+            return;
         }
         filterChain.doFilter(request, response);
     }

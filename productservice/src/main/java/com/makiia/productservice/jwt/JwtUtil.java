@@ -5,12 +5,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.Base64;
-import java.util.List;
 
 @Component
 public class JwtUtil {
     @Value("${jwt.secret}")
     private String secret;
+
     @PostConstruct
     protected void init() {
         secret = Base64.getEncoder().encodeToString(secret.getBytes());
@@ -30,8 +30,7 @@ public class JwtUtil {
         Claims claims = getClaims(token);
         return (claims != null) ? claims.getSubject() : null;
     }
-
-    public String getRoleFromToken(String token){
+    public String getRoleFromToken(String token) {
         Claims claims = getClaims(token);
         return claims != null ? claims.get("role", String.class) : null;
     }

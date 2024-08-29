@@ -24,7 +24,7 @@ public class ProductController {
                 .collect(Collectors.toList());
     }
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<ProductsDto> getById(@PathVariable("id") Integer id){
         Products product = productsService.getProductById(id);
         if (product == null) {
