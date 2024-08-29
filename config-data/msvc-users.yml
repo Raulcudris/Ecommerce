@@ -3,24 +3,16 @@ server:
 eureka:
   client:
     fetch-registry: true
-    register-whit-eureka: true
+    register-with-eureka: true
     service-url:
-      defaul-zone: http://localhost:8761/eureka
-    instance:
-      hostname: localhost
-    admin-paths:
+      default-zone: http://localhost:8761/eureka
+  instance:
+    instance-id: localhost
+  admin-paths:
     paths:
       - uri: "/products/**"
         method: "POST"
+      - uri: "/products/{1}[1-9]+[0-9]*"
+        method: "GET"
       - uri: "/products/**"
-        method: "GET"
-      #- uri: "/products/{1}[1-9]+[0-9]*"
-        #method: "GET"
-      - uri: "/orders/**"
-        method: "POST"
-      - uri: "/orders/**"
-        method: "GET"
-      - uri: "/pay/**"
-        method: "POST"
-      - uri: "/pay/**"
         method: "GET"
