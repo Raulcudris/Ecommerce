@@ -6,6 +6,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -27,16 +28,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
         try {
             String token = request.getHeader("Authorization");
-            if(StringUtils.hasText(token) && token.startsWith("Bearer ")){
-                Claims claims = jwtUtil.getClaims(token.substring(7));
-                if (claims != null) {
-                    String username = claims.getSubject();
-                    List<String> roles = claims.get("roles", List.class);
+            if (StringUtils.hasText(token) && token.startsWith("Bearer ")) {
+                String jwtToken = token.substring(7);
+                String username = jwtUtil.getSubject(jwtToken);
+                List<String> roles = jwtUtil.getRoles(jwtToken);
 
+                if (username != null && roles != null) {
                     List<SimpleGrantedAuthority> authorities = roles.stream()
                             .map(SimpleGrantedAuthority::new)
                             .collect(Collectors.toList());
-
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                             username, null, authorities);
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
