@@ -45,8 +45,13 @@ public class JwtProvider {
         }catch (Exception e){
             return false;
         }
+
         if(!isAdmin(token) && routeValidator.isAdminPath(dto))
             return false;
+
+        if(!isUser(token) && routeValidator.isUserPath(dto))
+            return false;
+
         return true;
     }
 
@@ -60,5 +65,9 @@ public class JwtProvider {
 
     private boolean isAdmin(String token) {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().get("role").equals("admin");
+    }
+
+    private boolean isUser(String token) {
+        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().get("role").equals("user");
     }
 }
