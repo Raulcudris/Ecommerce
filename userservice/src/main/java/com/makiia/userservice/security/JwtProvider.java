@@ -31,7 +31,7 @@ public class JwtProvider {
         claims.put("id", entityUsers.getId());
         claims.put("role", entityUsers.getRole());
         Date now = new Date();
-        Date exp = new Date(now.getTime() + 3600000); // Token válido por 1 hora
+        Date exp = new Date(now.getTime() + 3600000);
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
@@ -43,28 +43,24 @@ public class JwtProvider {
     public boolean validate(String token, RequestDto dto) {
         try {
             Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
-        } catch (Exception e) {
+        }catch (Exception e){
             return false;
         }
-
-        if (routeValidator.isAdminPath(dto)) {
-            return hasRole(token, "admin");
-        } else if (routeValidator.isUserPath(dto)) {
-            return hasRole(token, "user") || hasRole(token, "admin");
-        }
-
+        if(!isAdmin(token) && routeValidator.isAdminPath(dto))
+            return false;
         return true;
     }
 
-    public String getUserNameFromToken(String token) {
+    public String getUserNameFromToken(String token){
         try {
             return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
-        } catch (Exception e) {
+        }catch (Exception e) {
             return "bad token";
         }
     }
 
-    private boolean hasRole(String token, String role) {
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().get("role").equals(role);
+    private boolean isAdmin(String token) {
+        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().get("role").equals("admin");
     }
+
 }
