@@ -17,7 +17,7 @@ eureka:
         method: "GET"
       - uri: "/products/**"
         method: "GET"   
-     pathsUser:
+    pathsUser:
       - uri: "/products/**"
         method: "GET"
       - uri: "/products/{1}[0-9]+"
