@@ -16,12 +16,19 @@ public class RouteValidator {
     public List<RequestDto> paths() {
         return paths;
     }
-    public void setPaths(List<RequestDto> pathsAdmin) {
+
+    public void setPaths(List<RequestDto> paths) {
         this.paths = paths;
     }
-    public boolean isAdmin(RequestDto dto) {
+
+    public boolean isAdminPath(RequestDto dto) {
         return paths.stream().anyMatch(p ->
                 Pattern.matches(p.getUri(), dto.getUri()) && p.getMethod().equals(dto.getMethod()));
     }
 
+    public boolean isPublicPath(RequestDto dto) {
+        // Aquí podrías agregar lógica para identificar rutas accesibles a todos
+        // Por ejemplo, podrías definir otra lista de rutas accesibles a todos y verificarlas aquí.
+        return true; // Supongamos que todas las rutas son públicas si no están en admin-paths.
+    }
 }

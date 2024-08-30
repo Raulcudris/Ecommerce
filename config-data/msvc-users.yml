@@ -17,3 +17,9 @@ eureka:
         method: "GET"
       - uri: "/products/**"
         method: "GET"   
+  public-paths:
+     paths:
+      - uri: "/products/**"
+        method: "GET"
+      - uri: "/users/**"
+        method: "GET"

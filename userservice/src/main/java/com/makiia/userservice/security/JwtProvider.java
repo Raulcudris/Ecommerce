@@ -43,13 +43,19 @@ public class JwtProvider {
     public boolean validate(String token, RequestDto dto) {
         try {
             Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
-        }catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
-        if(!isAdmin(token) && routeValidator.isAdmin(dto))
+        boolean isAdmin = isAdmin(token);
+        boolean isUser = isUser(token);
+
+        if (routeValidator.isAdminPath(dto) && !isAdmin)
             return false;
 
-        return true;
+        if (routeValidator.isPublicPath(dto) || isAdmin || isUser)
+            return true;
+
+        return false;
     }
 
     public String getUserNameFromToken(String token){
@@ -62,6 +68,10 @@ public class JwtProvider {
 
     private boolean isAdmin(String token) {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().get("role").equals("admin");
+    }
+
+    private boolean isUser(String token) {
+        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().get("role").equals("user");
     }
 
 }
