@@ -47,7 +47,6 @@ public class JwtProvider {
             return false;
         }
 
-        // Validar si el usuario tiene acceso a la ruta
         if (routeValidator.isAdminPath(dto)) {
             return hasRole(token, "admin");
         } else if (routeValidator.isUserPath(dto)) {
