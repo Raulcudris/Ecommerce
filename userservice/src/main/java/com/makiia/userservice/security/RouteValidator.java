@@ -8,21 +8,35 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 @Component
-@ConfigurationProperties(prefix = "admin-paths")
+@ConfigurationProperties(prefix = "route-paths")
 public class RouteValidator {
 
-    private List<RequestDto> paths;
+    private List<RequestDto> adminPaths;
+    private List<RequestDto> userPaths;
 
-    public List<RequestDto> getPaths() {
-        return paths;
+    public List<RequestDto> getAdminPaths() {
+        return adminPaths;
     }
 
-    public void setPaths(List<RequestDto> paths) {
-        this.paths = paths;
+    public void setAdminPaths(List<RequestDto> adminPaths) {
+        this.adminPaths = adminPaths;
+    }
+
+    public List<RequestDto> getUserPaths() {
+        return userPaths;
+    }
+
+    public void setUserPaths(List<RequestDto> userPaths) {
+        this.userPaths = userPaths;
     }
 
     public boolean isAdminPath(RequestDto dto) {
-        return paths.stream().anyMatch(p ->
+        return adminPaths.stream().anyMatch(p ->
+                Pattern.matches(p.getUri(), dto.getUri()) && p.getMethod().equals(dto.getMethod()));
+    }
+
+    public boolean isUserPath(RequestDto dto) {
+        return userPaths.stream().anyMatch(p ->
                 Pattern.matches(p.getUri(), dto.getUri()) && p.getMethod().equals(dto.getMethod()));
     }
 

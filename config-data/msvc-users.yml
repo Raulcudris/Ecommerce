@@ -8,10 +8,15 @@ eureka:
       default-zone: http://localhost:8761/eureka
   instance:
     instance-id: localhost
-  admin-paths:
-    paths:
+  route-paths:
+    admin-paths:
       - uri: "/products/**"
         method: "POST"
+      - uri: "/products/{1}[1-9]+[0-9]*"
+        method: "GET"
+      - uri: "/products/**"
+        method: "GET"
+    user-paths:
       - uri: "/products/{1}[1-9]+[0-9]*"
         method: "GET"
       - uri: "/products/**"
