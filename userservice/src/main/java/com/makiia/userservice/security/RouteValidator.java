@@ -32,7 +32,7 @@ public class RouteValidator {
     }
 
     public boolean isUserPath(RequestDto dto) {
-        return pathsAdmin.stream().anyMatch(p ->
+        return pathsUser.stream().anyMatch(p ->
                 Pattern.matches(p.getUri(), dto.getUri()) && p.getMethod().equals(dto.getMethod()));
     }
 
