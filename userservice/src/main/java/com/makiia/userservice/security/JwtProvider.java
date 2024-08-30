@@ -50,7 +50,7 @@ public class JwtProvider {
         if (!isAdmin(token) && routeValidator.isAdminPath(dto) )
             return false;
 
-        if ( !isUser(token) && routeValidator.isPublicPath(dto))
+        if ( !isUser(token) && routeValidator.isUserPath(dto))
             return false;
 
         return true;

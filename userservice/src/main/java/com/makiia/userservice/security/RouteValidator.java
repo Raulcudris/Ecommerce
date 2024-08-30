@@ -10,17 +10,15 @@ import java.util.regex.Pattern;
 @Component
 @ConfigurationProperties(prefix = "admin-paths")
 public class RouteValidator {
-
     private List<RequestDto> pathsAdmin;
     private List<RequestDto> pathsUser;
 
-    public List<RequestDto> pathsAdmin() {
+    public List<RequestDto> getPathsAdmin() {
         return pathsAdmin;
     }
-    public List<RequestDto> pathsUser() {
+    public List<RequestDto> getPathsUser() {
         return pathsUser;
     }
-
     public void setPathsAdmin(List<RequestDto> pathsAdmin) {
         this.pathsAdmin = pathsAdmin;
     }
@@ -29,12 +27,12 @@ public class RouteValidator {
     }
 
     public boolean isAdminPath(RequestDto dto) {
-        return pathsAdmin.stream().anyMatch(p ->
+        return pathsAdmin != null && pathsAdmin.stream().anyMatch(p ->
                 Pattern.matches(p.getUri(), dto.getUri()) && p.getMethod().equals(dto.getMethod()));
     }
 
-    public boolean isPublicPath(RequestDto dto) {
-        return pathsUser.stream().anyMatch(p ->
+    public boolean isUserPath(RequestDto dto) {
+        return pathsUser != null && pathsUser.stream().anyMatch(p ->
                 Pattern.matches(p.getUri(), dto.getUri()) && p.getMethod().equals(dto.getMethod()));
     }
 }
