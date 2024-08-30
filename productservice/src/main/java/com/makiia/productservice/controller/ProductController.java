@@ -17,7 +17,7 @@ public class ProductController {
     ProductsService productsService;
 
     @GetMapping("getall")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public List<ProductsDto> getAll(){
         return productsService.getAll().stream()
                 .map(this::convertToDto)

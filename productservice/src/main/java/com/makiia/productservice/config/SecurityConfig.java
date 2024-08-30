@@ -20,7 +20,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/products/**").authenticated() // Requiere autenticación para todas las rutas /products/**
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/products/**").authenticated()
                 .antMatchers("/error").permitAll()
                 .anyRequest().permitAll() // Permite todas las demás rutas sin autenticación
                 .and()
