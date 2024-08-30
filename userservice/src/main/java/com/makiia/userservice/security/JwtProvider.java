@@ -46,13 +46,11 @@ public class JwtProvider {
         } catch (Exception e) {
             return false;
         }
-        boolean isAdmin = isAdmin(token);
-        boolean isUser = isUser(token);
 
-        if (routeValidator.isAdminPath(dto) && !isAdmin)
+        if (routeValidator.isAdminPath(dto) && !isAdmin(token))
             return false;
 
-        if (routeValidator.isPublicPath(dto) || isAdmin || isUser)
+        if (routeValidator.isPublicPath(dto) || isAdmin(token) || isUser(token))
             return true;
 
         return false;
