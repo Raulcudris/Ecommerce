@@ -11,20 +11,14 @@ eureka:
     hostname: localhost
   admin-paths:
     pathsAdmin:
-      - 
-        uri: "/products/**"
+      - uri: "/products/**"
         method: "POST"
-      - 
-        uri: "/products/{1}[0-9]+"
+      - uri: "/products/{1}[0-9]+"
         method: "GET"
-      - 
-        uri: "/products/**"
+      - uri: "/products/**"
         method: "GET"   
-
     pathsUser:
-      - 
-        uri: "/products/{1}[0-9]+"
+      - uri: "/products/{1}[0-9]+"
         method: "GET"
-      - 
-        uri: "/products/**"
+      - uri: "/products/**"
         method: "GET"   
