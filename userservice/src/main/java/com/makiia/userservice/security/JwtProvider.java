@@ -47,13 +47,13 @@ public class JwtProvider {
             return false;
         }
 
-        if (routeValidator.isAdminPath(dto) && !isAdmin(token))
+        if (!isAdmin(token) && routeValidator.isAdminPath(dto) )
             return false;
 
-        if (routeValidator.isPublicPath(dto) || isAdmin(token) || isUser(token))
-            return true;
+        if ( !isUser(token) && routeValidator.isPublicPath(dto))
+            return false;
 
-        return false;
+        return true;
     }
 
     public String getUserNameFromToken(String token){

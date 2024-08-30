@@ -10,15 +10,14 @@ eureka:
   instance:
     hostname: localhost
   admin-paths:
-    paths:
+    pathsAdmin:
       - uri: "/products/**"
         method: "POST"
       - uri: "/products/{1}[0-9]+"
         method: "GET"
       - uri: "/products/**"
         method: "GET"   
-  public-paths:
-     paths:
+     pathsUser:
       - uri: "/products/**"
         method: "GET"
       - uri: "/users/**"
