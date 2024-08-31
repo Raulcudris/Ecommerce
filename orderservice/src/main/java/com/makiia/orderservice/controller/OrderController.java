@@ -6,6 +6,7 @@ import com.makiia.orderservice.service.OrdersService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,12 +19,14 @@ public class OrderController {
     OrdersService ordersService;
 
     @GetMapping("getall")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public List<OrdersDto> getAll(){
         return ordersService.getAll().stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<OrdersDto> getById(@PathVariable("id") Integer id){
         Orders product = ordersService.getProductById(id);
         if (product == null) {
@@ -32,6 +35,7 @@ public class OrderController {
         return ResponseEntity.ok(convertToDto(product));
     }
     @PostMapping("create")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<OrdersDto> save(@RequestBody OrdersDto ordersDto){
         Orders order = convertToEntity(ordersDto);
         Orders savedOrder = ordersService.save(order);

@@ -6,7 +6,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,7 +14,6 @@ import java.util.stream.Collectors;
 public class PaymentsController {
     @Autowired
     PaymentsService paymentsService;
-
     @GetMapping("getall")
     public List<PaymentsDto> getAll(){
         return paymentsService.getAll().stream()
@@ -36,7 +34,6 @@ public class PaymentsController {
         Payments savedPay = paymentsService.save(payments);
         return ResponseEntity.ok(convertToDto(savedPay));
     }
-
     private PaymentsDto convertToDto(Payments payments) {
         PaymentsDto paymentsDto = new PaymentsDto();
         BeanUtils.copyProperties(payments, paymentsDto);

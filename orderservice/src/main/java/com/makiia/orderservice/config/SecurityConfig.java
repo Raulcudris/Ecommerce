@@ -1,5 +1,5 @@
-package com.makiia.productservice.config;
-import com.makiia.productservice.jwt.JwtAuthenticationFilter;
+package com.makiia.orderservice.config;
+import com.makiia.orderservice.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -22,7 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/products/**").authenticated()
+                .antMatchers("/orders/**").authenticated()
                 .antMatchers("/error").permitAll()
                 .anyRequest().permitAll()
                 .and()
@@ -30,5 +30,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic().disable()
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
-
 }

@@ -39,7 +39,6 @@ public class ProductController {
         Products savedProduct = productsService.save(product);
         return ResponseEntity.ok(convertToDto(savedProduct));
     }
-
     private ProductsDto convertToDto(Products product) {
         ProductsDto productDto = new ProductsDto();
         BeanUtils.copyProperties(product, productDto);

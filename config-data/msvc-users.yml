@@ -16,9 +16,21 @@ eureka:
       - uri: "/products/{1}[0-9]+"
         method: "GET"
       - uri: "/products/**"
+        method: "GET"
+      - uri: "/orders/**"
+        method: "POST"
+      - uri: "/orders/{1}[0-9]+"
+        method: "GET"
+      - uri: "/orders/**"
         method: "GET"   
+   
     pathsUser:
       - uri: "/products/**"
         method: "GET"
       - uri: "/products/{1}[0-9]+"
         method: "GET"
+      - uri: "/orders/**"
+        method: "GET"   
+      - uri: "/orders/{1}[0-9]+"
+        method: "GET"
+
