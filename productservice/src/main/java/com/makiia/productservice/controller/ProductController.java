@@ -39,6 +39,30 @@ public class ProductController {
         Products savedProduct = productsService.save(product);
         return ResponseEntity.ok(convertToDto(savedProduct));
     }
+
+    @PutMapping("/update/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ProductsDto> update(@PathVariable("id") Integer id, @RequestBody ProductsDto productDto) {
+        Products product = convertToEntity(productDto);
+        Products updatedProduct = productsService.updateProduct(id, product);
+        if (updatedProduct == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(convertToDto(updatedProduct));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> delete(@PathVariable("id") Integer id) {
+        boolean isDeleted = productsService.deleteProduct(id);
+        if (isDeleted) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
     private ProductsDto convertToDto(Products product) {
         ProductsDto productDto = new ProductsDto();
         BeanUtils.copyProperties(product, productDto);

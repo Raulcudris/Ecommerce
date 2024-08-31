@@ -25,4 +25,22 @@ public class ProductsService {
         return productNew;
     }
 
+    public Products updateProduct(Integer id, Products updatedProduct) {
+        Products existingProduct = getProductById(id);
+        if (existingProduct != null) {
+            updatedProduct.setId(id);
+            return productRepository.save(updatedProduct);
+        }
+        return null;
+    }
+
+    public boolean deleteProduct(Integer id) {
+        Products existingProduct = getProductById(id);
+        if (existingProduct != null) {
+            productRepository.delete(existingProduct);
+            return true;
+        }
+        return false;
+    }
+
 }
