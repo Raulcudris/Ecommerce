@@ -22,6 +22,12 @@ eureka:
       - uri: "/orders/{1}[0-9]+"
         method: "GET"
       - uri: "/orders/**"
+        method: "GET"
+      - uri: "/pay/**"
+        method: "POST"
+      - uri: "/pay/{1}[0-9]+"
+        method: "GET"
+      - uri: "/pay/**"
         method: "GET"   
    
     pathsUser:
@@ -33,4 +39,10 @@ eureka:
         method: "GET"   
       - uri: "/orders/{1}[0-9]+"
         method: "GET"
+      - uri: "/pay/**"
+        method: "POST"
+      - uri: "/pay/{1}[0-9]+"
+        method: "GET"
+      - uri: "/pay/**"
+        method: "GET"   
 

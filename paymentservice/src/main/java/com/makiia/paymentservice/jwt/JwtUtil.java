@@ -1,4 +1,4 @@
-package com.makiia.orderservice.jwt;
+package com.makiia.paymentservice.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,6 +8,7 @@ import java.util.Base64;
 
 @Component
 public class JwtUtil {
+
     @Value("${jwt.secret}")
     private String secret;
     @PostConstruct
@@ -33,4 +34,6 @@ public class JwtUtil {
         Claims claims = getClaims(token);
         return claims != null ? claims.get("role", String.class) : null;
     }
+
+
 }

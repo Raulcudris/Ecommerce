@@ -5,6 +5,7 @@ import com.makiia.paymentservice.service.PaymentsService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,12 +16,14 @@ public class PaymentsController {
     @Autowired
     PaymentsService paymentsService;
     @GetMapping("getall")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public List<PaymentsDto> getAll(){
         return paymentsService.getAll().stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<PaymentsDto> getById(@PathVariable("id") Integer id){
         Payments payments = paymentsService.getPaymentsById(id);
         if (payments == null) {
@@ -29,6 +32,7 @@ public class PaymentsController {
         return ResponseEntity.ok(convertToDto(payments));
     }
     @PostMapping("create")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<PaymentsDto> save(@RequestBody PaymentsDto paymentsDto){
         Payments payments = convertToEntity(paymentsDto);
         Payments savedPay = paymentsService.save(payments);

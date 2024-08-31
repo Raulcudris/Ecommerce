@@ -1,5 +1,4 @@
 package com.makiia.userservice.service;
-
 import com.makiia.userservice.dto.EntityUsersDto;
 import com.makiia.userservice.dto.NewUserDto;
 import com.makiia.userservice.dto.RequestDto;
@@ -10,7 +9,6 @@ import com.makiia.userservice.security.JwtProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 
 @Service
