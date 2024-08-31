@@ -28,11 +28,11 @@ public class OrderController {
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<OrdersDto> getById(@PathVariable("id") Integer id){
-        Orders product = ordersService.getProductById(id);
-        if (product == null) {
+        Orders order = ordersService.getOrderById(id);
+        if (order == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(convertToDto(product));
+        return ResponseEntity.ok(convertToDto(order));
     }
     @PostMapping("create")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
@@ -40,6 +40,27 @@ public class OrderController {
         Orders order = convertToEntity(ordersDto);
         Orders savedOrder = ordersService.save(order);
         return ResponseEntity.ok(convertToDto(savedOrder));
+    }
+
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<OrdersDto> update(@PathVariable("id") Integer id, @RequestBody OrdersDto ordersDto) {
+        Orders product = convertToEntity(ordersDto);
+        Orders updatedOrders = ordersService.updateOrders(id, product);
+        if (updatedOrders == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(convertToDto(updatedOrders));
+    }
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> delete(@PathVariable("id") Integer id) {
+        boolean isDeleted = ordersService.deleteOrder(id);
+        if (isDeleted) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     private OrdersDto convertToDto(Orders orders) {

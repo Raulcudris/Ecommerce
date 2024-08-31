@@ -39,8 +39,7 @@ public class ProductController {
         Products savedProduct = productsService.save(product);
         return ResponseEntity.ok(convertToDto(savedProduct));
     }
-
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ProductsDto> update(@PathVariable("id") Integer id, @RequestBody ProductsDto productDto) {
         Products product = convertToEntity(productDto);
@@ -50,8 +49,7 @@ public class ProductController {
         }
         return ResponseEntity.ok(convertToDto(updatedProduct));
     }
-
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable("id") Integer id) {
         boolean isDeleted = productsService.deleteProduct(id);
@@ -61,8 +59,6 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         }
     }
-
-
     private ProductsDto convertToDto(Products product) {
         ProductsDto productDto = new ProductsDto();
         BeanUtils.copyProperties(product, productDto);

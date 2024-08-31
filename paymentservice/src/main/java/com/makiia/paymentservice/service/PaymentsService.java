@@ -23,4 +23,23 @@ public class PaymentsService {
         Payments payNew = paymentsRepository.save(payments);
         return payNew;
     }
+
+    public Payments updateOrders(Integer id, Payments updatedOrder) {
+        Payments existingOrder = getPaymentsById(id);
+        if (existingOrder != null) {
+            updatedOrder.setId(id);
+            return paymentsRepository.save(updatedOrder);
+        }
+        return null;
+    }
+
+    public boolean deleteOrder(Integer id) {
+        Payments existingOrder = getPaymentsById(id);
+        if (existingOrder != null) {
+            paymentsRepository.delete(existingOrder);
+            return true;
+        }
+        return false;
+    }
+
 }

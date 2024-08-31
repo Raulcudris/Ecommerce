@@ -38,6 +38,28 @@ public class PaymentsController {
         Payments savedPay = paymentsService.save(payments);
         return ResponseEntity.ok(convertToDto(savedPay));
     }
+
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<PaymentsDto> update(@PathVariable("id") Integer id, @RequestBody PaymentsDto paymentsDto) {
+        Payments product = convertToEntity(paymentsDto);
+        Payments updatedOrders = paymentsService.updateOrders(id, product);
+        if (updatedOrders == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(convertToDto(updatedOrders));
+    }
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> delete(@PathVariable("id") Integer id) {
+        boolean isDeleted = paymentsService.deleteOrder(id);
+        if (isDeleted) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     private PaymentsDto convertToDto(Payments payments) {
         PaymentsDto paymentsDto = new PaymentsDto();
         BeanUtils.copyProperties(payments, paymentsDto);
